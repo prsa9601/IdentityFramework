@@ -1,0 +1,39 @@
+﻿version: '3.4'
+
+networks:
+  testApp:
+volumes:
+  ApplicationSql:
+
+services:
+  application:
+    container_name: asp_app
+    build:
+     context: ./testdock/
+    ports:
+      - "5050:80"
+    networks:
+      - nameppp
+
+  sqlserver2019:
+     container_name: sqlserver2019
+     image: mcr.microsoft.com/mssql/server:2019-latest
+     ports:
+       - 1433:1433
+     networks:
+       - nameppp
+     volumes:
+       - AppplicationSql:/var/opt/mssql
+     environment:
+       - ACCEPT_EULA=Y
+       - SA_PASSWORD=12345678@
+
+  web:
+     build: .
+     image: docker-hub-id/web:lates
+
+
+
+
+
+      
